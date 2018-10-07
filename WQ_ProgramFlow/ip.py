@@ -19,7 +19,7 @@ def mersenne_number(p):
     return ans-1
 
 def is_prime(number):
-    if number == 1:
+    if number == 0 or number ==1:
         return False
     
     for factor in range(2, number):
@@ -97,13 +97,103 @@ print ("For p from 3 to 65: ", prime_test_results())
 
 def is_prime_fast(n):
     
+    if (n == 2):
+        return True
+        
     if (n>2 and n%2 ==0):
         return False
     
-    for factor in range(2, int(sqrt(n))):
+    m = ceil(sqrt(n))
+    
+    if (sqrt(n) == m):
+        return False
+    
+    for factor in range(2, int(m+1)):
         if n % factor == 0:
             return False
     
     return True
 
-print ("Check is_prime_fast: ", str(is_prime_fast(5)))
+print ("Check is_prime_fast: ", is_prime_fast(67867967))
+# print ("Statement: ",is_prime(67867967))
+def test():
+    m = 0
+    try:
+        for n in range(10000):
+            m = n
+            assert is_prime(n) == is_prime_fast(n)
+    except AssertionError as error:
+        print (error)
+        print ("The number causing error is: ",m )        
+        
+def get_primes_fast(n):
+    prime_list = []
+    for x in range(2,n+1):
+        if (is_prime_fast(x)):
+            prime_list.append(x)
+            
+    return prime_list        
+        
+print ("get primes fast 20", get_primes_fast(20))   
+
+# Exercise 5: Sieve of Eratosthenes
+
+def list_true(n):
+    list_true = []
+    for i in range(n+1):
+        if (i==0 or i==1):
+            list_true.append(False)
+        else:    
+            list_true.append(True)
+        
+    return list_true    
+
+def mark_false(bool_list, p):
+
+    list_len = len(bool_list)
+    i = 2
+    while (i*p < list_len):
+        bool_list[i*p] = False
+        i = i+1
+
+    return bool_list
+
+
+def find_next(bool_list,p):
+    list_len = len(bool_list)
+    i = p+1
+    while (i < list_len):
+        if (bool_list[i] == True):
+            return i
+        i = i+1
+        
+    return None
+
+def prime_from_list(bool_list):
+    true_list = []
+    list_len = len(bool_list)
+    i =0
+    while (i < list_len):
+        if (bool_list[i] == True):
+            true_list.append(i)
+        
+        i = i+1    
+            
+    return true_list
+
+def sieve(n):
+    bool_list = list_true(n)
+    p = 2
+    while p is not None:
+        bool_list = mark_false(bool_list, p)
+        p = find_next(bool_list, p)
+    
+    return prime_from_list(bool_list)
+    
+list_t = list_true(5)
+print ("List of truth: ", list_t)
+print ("mark false: ",mark_false(list_t, 2))  
+print ("find next: ", find_next(list_t, 2)) 
+print ("prime from list: ", prime_from_list(list_t)) 
+print ("sieve: ", sieve(200))
+
