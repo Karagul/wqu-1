@@ -46,10 +46,22 @@ class Cluster(object):
     
     def __init__(self,x,y):
         self.center = Point(x,y)
-        self.point = [self.center]
+        self.points = [self.center]
         
-                
-        
+    def update(self):
+        totalX =0
+        totalY =0
+        for p in self.points:
+            totalX = totalX + p.x
+            totalY = totalY + p.y
+                    
+    def add_point(self, point):
+        if isinstance(point, Point):
+            self.points.append(point)
+            Cluster.update(self) #update the center
+        else:
+            raise TypeError('Expect point to be instance of Point class. Got %s' % type(point))    
+            
 pointA = Point(2,3)
 pointB = Point(-1,2)
 print ("point A: ", pointA)
