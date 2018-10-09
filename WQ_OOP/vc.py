@@ -43,10 +43,7 @@ class Point(object):
             raise TypeError('Expect point to be instance of Point class. Got %s' % type(other))
         
 class Cluster(object):
-    
-    center = Point(0,0)
-    points = []
-    
+       
     def __init__(self,x,y):
         self.center = Point(x,y)
         self.points.append(self.center)
