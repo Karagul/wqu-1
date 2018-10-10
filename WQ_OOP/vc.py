@@ -43,24 +43,30 @@ class Point(object):
             raise TypeError('Expect point to be instance of Point class. Got %s' % type(other))
         
 class Cluster(object):
-       
+    
+    #note that we cannot declare a list here
+    #because list is immutable and treated as static attribute (weird)
+
     def __init__(self,x,y):
         self.center = Point(x,y)
-        self.points.append(self.center)
+        self.cluster_points = []
         
     def update(self):
         totalX =0
         totalY =0
-        numPoints = len(self.points)
-        for p in self.points:
+        numPoints = len(self.cluster_points)
+        for p in self.cluster_points:
             totalX = totalX + p.x
             totalY = totalY + p.y
         
-        self.center = Point(totalX / numPoints, totalY/ numPoints) #this is the new center    
+         #calculate the new center
+        self.center = Point(totalX / numPoints, totalY/ numPoints)          
+        #remove the old assignments
+        self.cluster_points = []
                     
     def add_point(self, point):
         if isinstance(point, Point):
-            self.points.append(point)
+            self.cluster_points.append(point)
         else:
             raise TypeError('Expect point to be instance of Point class. Got %s' % type(point))    
             
@@ -91,17 +97,17 @@ def compute_result(points):
                 # add the right point
                     b.add_point(point)
                     
-        if a_old == a.points:
+        if a_old == a.cluster_points:
             break
         else:
-            a_old = a.points
+            a_old = a.cluster_points
         
         a.update()
         b.update()
     
     # For testing purpose
-    print ("Cluster a:", a.points)
-    print ("Cluster b:", b.points)
+    print ("Cluster a:", a.cluster_points)
+    print ("Cluster b:", b.cluster_points)
     print ("New centroids: ", [(a.center.x,a.center.y),(b.center.x,b.center.y)])
     
     # Return the result (sorted) to the grader
