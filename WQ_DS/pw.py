@@ -33,7 +33,7 @@ def describe(key):
         value_list_len = len(value_list)
         
         #sum
-        total = sum(value_list)
+        total = float(sum(value_list))
         
         #mean
         avg = total / value_list_len 
@@ -86,9 +86,24 @@ def median(alist):
     else:
         median = alist[int((list_len - 1) / 2)]
             
-    return median
+    return float(median)
 
 print ("items: ",describe('items'))
 print ("quantity: ", describe('quantity'))
 print ("nic: " ,describe('nic'))
 print ("act_cost: ",describe('act_cost'))
+
+#2 Most Common Items
+bnf_names = []
+
+for script in scripts:
+    if script['bnf_name'] not in bnf_names:
+        bnf_names.append(script['bnf_name'])
+        
+print ("len bnf_names:", len(bnf_names))
+
+groups = {name: [] for name in bnf_names}
+
+for script in scripts:
+    groups[script['bnf_name']].append(script)
+
