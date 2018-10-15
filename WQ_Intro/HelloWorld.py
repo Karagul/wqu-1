@@ -55,3 +55,12 @@ def factorial_mem(n, d):
 print ("Factorial:", factorial(10))
 print ("Factorial mem:", factorial(10))
 
+
+list = ['a','b','c']
+key = 'd'
+print (key in list)
+
+list_1 = [10,7,1,2,3]
+print (sum(list_1))
+list_1.sort(key=None, reverse=False) 
+print (list_1)

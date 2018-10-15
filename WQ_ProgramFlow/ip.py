@@ -114,6 +114,18 @@ def is_prime_fast(n):
     
     return True
 
+def is_prime_fast_v2(number):
+    
+    if (number == 0 or number ==1):
+        return False 
+    if number % 2 == 0 and number > 2:
+        return False
+    else:
+        for n in range (2, int(sqrt(number)+1)): 
+            if number % n == 0:
+                return False
+    return number
+
 print ("Check is_prime_fast: ", is_prime_fast(67867967))
 # print ("Statement: ",is_prime(67867967))
 def test():
