@@ -107,3 +107,48 @@ groups = {name: [] for name in bnf_names}
 for script in scripts:
     groups[script['bnf_name']].append(script)
 
+    
+def most_common_item():
+    max_item =0
+    max_bnf = "na"
+    for name in bnf_names:
+        script_list = groups[name]
+        sum_items = 0
+        for s in script_list:
+            sum_items = sum_items + s['items']
+        
+        if (sum_items > max_item):
+            max_item = sum_items
+            max_bnf = name
+            
+    return [(max_bnf,max_item)]        
+         
+print ("most common bnf: ", most_common_item())   
+                 
+def group_by_field(data, fields):
+    # we want to construct a dict of dict
+    dicts = {field : {} for field in fields}
+    
+    for field in fields:
+        print ("buiding group for field:", field)
+        
+        temp_list = []
+        #build a list of unique values for each field
+        for d in data:           
+            if d[field] not in temp_list:
+                temp_list.append(d[field])
+        
+        #construct a dict base on the unique values of each field
+        dict = {name : [] for name in temp_list}
+    
+        for d in data:
+            dict[d[field]].append(d)
+        
+        #add the field dict to the general dict    
+        dicts[field] = dict
+        
+    return dicts
+
+print ("group by field: ", group_by_field(scripts, ("bnf_name",)))    
+                        
+
