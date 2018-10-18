@@ -127,10 +127,10 @@ print ("most common bnf: ", most_common_item())
                  
 def group_by_field(data, fields):
     # we want to construct a dict of dict
-    dicts = {field : {} for field in fields}
+    dicts = {}
     
     for field in fields:
-        print ("buiding group for field:", field)
+        print ("building group for field:", field)
         
         temp_list = []
         #build a list of unique values for each field
@@ -145,10 +145,13 @@ def group_by_field(data, fields):
             dict[d[field]].append(d)
         
         #add the field dict to the general dict    
-        dicts[field] = dict
+        dicts.update({field : dict})
         
     return dicts
 
-print ("group by field: ", group_by_field(scripts, ("bnf_name",)))    
+#print ("group by field: ", group_by_field(scripts, ("bnf_name", "items")))    
+totalDicts = group_by_field(scripts, ("bnf_name", "items"))
+print ("len group dict", len(totalDicts["bnf_name"]))
+print ("test group dict", (totalDicts["bnf_name"])["Omeprazole_Cap E/C 20mg"])
                         
 
