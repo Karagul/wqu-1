@@ -125,7 +125,7 @@ def most_common_item():
          
 print ("most common bnf: ", most_common_item())   
                  
-def group_by_field(data, fields):
+def group_by_field(data, *fields):
     # we want to construct a dict of dict
     dicts = {}
     
@@ -139,19 +139,58 @@ def group_by_field(data, fields):
                 temp_list.append(d[field])
         
         #construct a dict base on the unique values of each field
-        dict = {name : [] for name in temp_list}
+        temp_dict = {name : [] for name in temp_list}
     
         for d in data:
-            dict[d[field]].append(d)
+            temp_dict[d[field]].append(d)
         
         #add the field dict to the general dict    
-        dicts.update({field : dict})
+        dicts.update({field : temp_dict})
         
     return dicts
-
-#print ("group by field: ", group_by_field(scripts, ("bnf_name", "items")))    
-totalDicts = group_by_field(scripts, ("bnf_name", "items"))
-print ("len group dict", len(totalDicts["bnf_name"]))
+   
+totalDicts = group_by_field(scripts, ("bnf_name"))
+print ("len  dict", len(totalDicts["bnf_name"]))
 print ("test group dict", (totalDicts["bnf_name"])["Omeprazole_Cap E/C 20mg"])
-                        
 
+# Question 3: postal_totals
+
+practice_postal = {}
+
+for practice in practices:
+    if practice['code'] in practice_postal:
+        practice_postal[practice['code']].append(practice)
+    else:
+        practice_postal.update({practice['code'] : [practice]})                          
+
+print ("practices for code A81001: ", practice_postal["A81001"])
+
+joined = scripts[:]
+
+for script in joined:
+    #add a new key : value (post_code : [practices]) for script
+    script['post_code'] = practice_postal[script['practice']] #remember script['practice'] = practice['code'] 
+
+def postal_totals():
+    result = []
+    postCodeItemsDict = {} 
+    for script in joined:
+        pracs = script['post_code']
+        for prac in pracs:
+            postCode = prac['post_code']
+            
+            if postCode in postCodeItemsDict:
+                postCodeItemsDict[postCode] = postCodeItemsDict[postCode] + script['items']
+            else:
+                postCodeItemsDict.update({postCode : 0})
+    
+    #return the result in sorted order
+    sortedPostCodeList = sorted(postCodeItemsDict) # this equivalents to sorted(postCodeItemsDict.keys())
+    
+    for postCode in sortedPostCodeList[:100]:
+        result.append((postCode, postCodeItemsDict[postCode]))
+    
+    return result
+
+print ("Postal total: ", postal_totals())    
+   
