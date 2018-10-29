@@ -155,42 +155,119 @@ print ("test group dict", (totalDicts["bnf_name"])["Omeprazole_Cap E/C 20mg"])
 
 # Question 3: postal_totals
 
-practice_postal = {}
+practice_codes = [practices[i]['code'] for i in range(len(practices))]
+
+practice_postal = {code:[] for code in practice_codes}
 
 for practice in practices:
-    if practice['code'] in practice_postal:
-        practice_postal[practice['code']].append(practice)
-    else:
-        practice_postal.update({practice['code'] : [practice]})                          
+    if practice['code'] in practice_postal.keys():
+        practice_postal[practice['code']].append(practice['post_code'])                     
 
-print ("practices for code A81001: ", practice_postal["A81001"])
+print ("practice postal", practice_postal)
 
+# get a copy of scripts
 joined = scripts[:]
 
+#add a new key : value (post_code : [practices['post_code']]) for script
+#remember script['practice'] = practice['code']
 for script in joined:
-    #add a new key : value (post_code : [practices]) for script
-    script['post_code'] = practice_postal[script['practice']] #remember script['practice'] = practice['code'] 
+    #Note that for each practice['code'] we may have multiple postal codes we want to get the first postal code after sorted    
+    #Hence [0]
+    script['post_code'] = sorted(practice_postal[script['practice']])[0] 
+
+items_by_post = group_by_field(joined,("post_code"))
+
+#print ("items by post:", items_by_post.popitem())
 
 def postal_totals():
     result = []
     postCodeItemsDict = {} 
     for script in joined:
-        pracs = script['post_code']
-        for prac in pracs:
-            postCode = prac['post_code']
-            
-            if postCode in postCodeItemsDict:
-                postCodeItemsDict[postCode] = postCodeItemsDict[postCode] + script['items']
-            else:
-                postCodeItemsDict.update({postCode : 0})
-    
+        postCode = script['post_code']
+                  
+        if postCode in postCodeItemsDict:
+            postCodeItemsDict[postCode] = postCodeItemsDict[postCode] + script['items']
+        else:
+            postCodeItemsDict.update({postCode : 0})
+                
+          
     #return the result in sorted order
     sortedPostCodeList = sorted(postCodeItemsDict) # this equivalents to sorted(postCodeItemsDict.keys())
-    
+          
     for postCode in sortedPostCodeList[:100]:
         result.append((postCode, postCodeItemsDict[postCode]))
-    
+          
     return result
-
+     
 print ("Postal total: ", postal_totals())    
-   
+
+# Question 4: items by region
+
+#gorup by post code and bnf name
+total_by_item_post = {(script['post_code'], script['bnf_name']):[] for script in joined}
+
+for script in joined:
+    total_by_item_post[(script['post_code'], script['bnf_name'])].append(script['items'])
+    
+#aggregate the sum of items for each bnf in each post code
+for i in total_by_item_post.keys():
+    total_by_item_post[i] = sum(total_by_item_post[i])  
+
+print ("len total by item post group by post code and bnf: ", len(total_by_item_post.keys()))
+
+
+# group by post code only
+total_by_item_post = {script['post_code']:[] for script in joined}
+
+for script in joined:
+    total_by_item_post[script['post_code']].append( (script['bnf_name'],script['items']) )    
+    
+print ("len total by item post group by post code only: ", len(total_by_item_post.keys()))    
+
+# find out the total items in each postal code
+items_by_post = {post : 0 for post in total_by_item_post.keys()}
+
+for script in joined:
+    items_by_post[script['post_code']] = items_by_post[script['post_code']] + script['items']
+
+# create a dict to store max bnf item in each postal code
+max_item_by_post = {post : ("",0) for post in total_by_item_post.keys()}
+  
+for post in total_by_item_post.keys():
+    #note the interesting sorted method below, we use the first element of the tuple (item[0]) as the sorting key
+    bnf_item_list = total_by_item_post[post]
+    bnf_item_list = sorted(bnf_item_list, key = lambda item: item[0]) 
+     
+    for i in bnf_item_list:
+        temp = max_item_by_post[post]
+        if (i[1] > temp[1]):
+            max_item_by_post[post] = i
+       
+             
+def items_by_region():
+     
+    result = []
+    
+    
+    for post in max_item_by_post.keys():
+        result.append( (post, max_item_by_post[post][0], float(max_item_by_post[post][1]) / items_by_post[post] ) ) 
+      
+#    items_by_post = {post : 0 for post in total_by_item_post.keys()}
+      
+#     for post in max_item_by_post.keys():
+#         bnf_item_list = total_by_item_post[post]
+#         for item in bnf_item_list:
+#             items_by_post[post] = items_by_post[post] + item[1]
+#          
+#         #print ("post: ", post, "| item by post :", items_by_post[post])
+#              
+#         result.append(  (post, max_item_by_post[post][0], float(max_item_by_post[post][1]) /  items_by_post[post])  )    
+             
+    return result[:100]
+                 
+     
+print ("max_item_by_post", max_item_by_post)
+ 
+print ("items by region", items_by_region())
+ 
+  
