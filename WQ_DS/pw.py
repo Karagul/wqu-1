@@ -212,9 +212,10 @@ for script in joined:
 #aggregate the sum of items for each bnf in each post code
 for i in total_by_item_post.keys():
     total_by_item_post[i] = sum(total_by_item_post[i])  
+    
+items_by_post = total_by_item_post    
 
 print ("len total by item post group by post code and bnf: ", len(total_by_item_post.keys()))
-
 
 # group by post code only
 total_by_item_post = {script['post_code']:[] for script in joined}
@@ -225,10 +226,10 @@ for script in joined:
 print ("len total by item post group by post code only: ", len(total_by_item_post.keys()))    
 
 # find out the total items in each postal code
-items_by_post = {post : 0 for post in total_by_item_post.keys()}
-
-for script in joined:
-    items_by_post[script['post_code']] = items_by_post[script['post_code']] + script['items']
+# items_by_post = {post : 0 for post in total_by_item_post.keys()}
+# 
+# for script in joined:
+#     items_by_post[script['post_code']] = items_by_post[script['post_code']] + script['items']
 
 # create a dict to store max bnf item in each postal code
 max_item_by_post = {post : ("",0) for post in total_by_item_post.keys()}
@@ -250,18 +251,9 @@ def items_by_region():
     
     
     for post in max_item_by_post.keys():
-        result.append( (post, max_item_by_post[post][0], float(max_item_by_post[post][1]) / items_by_post[post] ) ) 
-      
-#    items_by_post = {post : 0 for post in total_by_item_post.keys()}
-      
-#     for post in max_item_by_post.keys():
-#         bnf_item_list = total_by_item_post[post]
-#         for item in bnf_item_list:
-#             items_by_post[post] = items_by_post[post] + item[1]
-#          
-#         #print ("post: ", post, "| item by post :", items_by_post[post])
-#              
-#         result.append(  (post, max_item_by_post[post][0], float(max_item_by_post[post][1]) /  items_by_post[post])  )    
+        totalItemInPost = items_by_post[(post, max_item_by_post[post][0])]
+        result.append( (post, max_item_by_post[post][0], float(max_item_by_post[post][1]) / totalItemInPost ) ) 
+       
              
     return result[:100]
                  
