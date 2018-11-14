@@ -84,4 +84,9 @@ def items_by_region():
     
     print ("max bnf name in each post code: ")
     print (max_items)
+    
+    #Total items in each post code
+    total_items_post_code = joined.groupby('post_code')['items'].sum().reset_index()
+    print ("total items in each post code")
+    print (total_items_post_code)
 items_by_region()
