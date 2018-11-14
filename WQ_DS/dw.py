@@ -69,6 +69,11 @@ most_common_item()
 
 # Question 3: Items by region
 def items_by_region():
+    #since a practice can have multiple post codes, we have to sort them  by alphabet and drop the duplicates
+    practices_sorted = practices.sort_values('post_code').drop_duplicates('code')
+    print ("practice sorted and drop duplicates:")
+    print (practices_sorted)
+    
     #get rid of irrelevant columns in practice, only keep 'code' and 'post_code'
     practice_filtered = practices.drop(['name','addr_1','addr_2','borough','village'], axis =1)
     joined = pd.merge(scripts,practice_filtered, how='inner', left_on = 'practice', right_on = 'code')
@@ -89,4 +94,11 @@ def items_by_region():
     total_items_post_code = joined.groupby('post_code')['items'].sum().reset_index()
     print ("total items in each post code")
     print (total_items_post_code)
+    
+    # merge total_items_post_code with max_items again to make use both of them
+    merged = pd.merge(max_items,total_items_post_code, how='inner', left_on ='post_code', right_on ='post_code' )
+    print ("Merge max_items and total_items_post_code on post_code ")
+    print (merged)
+    
+    
 items_by_region()
