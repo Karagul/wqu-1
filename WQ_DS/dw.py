@@ -3,23 +3,27 @@ import numpy as np
 import gzip
 
 with gzip.open('./dw-data/201701scripts_sample.csv.gz', 'rb') as f:
-    scripts_data = pd.read_csv(f)
+    scripts_data = pd.read_csv(f) #read_csv returns a data frame
 
-scripts =   pd.DataFrame(scripts_data)  
+scripts =  scripts_data
 
 print (scripts.head())
 
 
-with gzip.open('./dw-data/practices.csv.gz', 'rb') as p:
-    practice_data = pd.read_csv(p)
+with gzip.open('./dw-data/practices.csv.gz', 'r') as p:
+    col_names=[ 'code', 'name', 'addr_1', 'addr_2', 'borough', 'village', 'post_code']    
+    practice_data = pd.read_csv(p, names = col_names, header = None)
     
-practices = pd.DataFrame(practice_data)
+
+
+practices = practice_data
+
 print (practices.head())
 
 with gzip.open('./dw-data/chem.csv.gz', 'rb') as c:
     chem_data = pd.read_csv(c)
 
-chem = pd.DataFrame(chem_data) 
+chem = chem_data
 
 print (chem.head())   
 
@@ -28,7 +32,7 @@ print (chem.head())
 
 
 print ("Describe scripts: \n", scripts.describe())
-
+print ("Describe practice: \n",practices.describe())
 def summary_stats():
     results = []
     
@@ -65,7 +69,19 @@ most_common_item()
 
 # Question 3: Items by region
 def items_by_region():
-    joined = pd.merge(scripts,practices, how='inner', left_on = 'practice', right_on = 'A81001')
+    #get rid of irrelevant columns in practice, only keep 'code' and 'post_code'
+    practice_filtered = practices.drop(['name','addr_1','addr_2','borough','village'], axis =1)
+    joined = pd.merge(scripts,practice_filtered, how='inner', left_on = 'practice', right_on = 'code')
+    print ("scripts inner join practice: ")
     print (joined)
+    #group joined by bnf_name and post_code
+    item_by_region = joined.groupby(['post_code','bnf_name'])['items'].sum().reset_index()
+    print ("joined group by post_code and bnf_name and sum by items:")
+    print (item_by_region)
     
+    #get max bnf_name in each post code
+    max_items = item_by_region.loc[item_by_region.groupby('post_code')['items'].idxmax()]
+    
+    print ("max bnf name in each post code: ")
+    print (max_items)
 items_by_region()
