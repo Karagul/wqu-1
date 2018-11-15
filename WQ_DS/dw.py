@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import gzip
 
+pd.set_option('display.max_columns', None)
+
 with gzip.open('./dw-data/201701scripts_sample.csv.gz', 'rb') as f:
     scripts_data = pd.read_csv(f) #read_csv returns a data frame
 
@@ -75,7 +77,7 @@ def items_by_region():
     print (practices_sorted)
     
     #get rid of irrelevant columns in practice, only keep 'code' and 'post_code'
-    practice_filtered = practices.drop(['name','addr_1','addr_2','borough','village'], axis =1)
+    practice_filtered = practices_sorted.drop(['name','addr_1','addr_2','borough','village'], axis =1)
     joined = pd.merge(scripts,practice_filtered, how='inner', left_on = 'practice', right_on = 'code')
     print ("scripts inner join practice: ")
     print (joined)
@@ -96,9 +98,24 @@ def items_by_region():
     print (total_items_post_code)
     
     # merge total_items_post_code with max_items again to make use both of them
-    merged = pd.merge(max_items,total_items_post_code, how='inner', left_on ='post_code', right_on ='post_code' )
+    merged = pd.merge(max_items,total_items_post_code, how='inner', left_on ='post_code', right_on ='post_code' ).sort_values('post_code')
     print ("Merge max_items and total_items_post_code on post_code ")
     print (merged)
+    
+    #get the fraction: max_items / total_items
+    merged['fraction'] = merged['items_x'] / merged['items_y']
+    print ("Merged after calculating the ration")
+    print (merged)
+    
+    #get a df that contain only required items and
+    final_df = merged.groupby(['post_code','bnf_name'])['fraction'].sum().reset_index()
+    print ("final test")
+    print (final_df)
+    
+    #final answer
+    tuples = [tuple(x) for x in final_df.values][:100]
+    print ("final answer")
+    print (tuples)
     
     
 items_by_region()
