@@ -1,14 +1,21 @@
 import pandas as pd
 import numpy as np
 import gzip
+import logging
+
+from math import sqrt
 
 pd.set_option('display.max_columns', None)
+pd.set_option('expand_frame_repr', False)
+
+logging.basicConfig(filename='dw.log', level=logging.DEBUG)
+
 
 with gzip.open('./dw-data/201701scripts_sample.csv.gz', 'rb') as f:
     scripts_data = pd.read_csv(f) #read_csv returns a data frame
 
 scripts =  scripts_data
-
+print ("SCRIPT:")
 print (scripts.head())
 
 
@@ -16,17 +23,15 @@ with gzip.open('./dw-data/practices.csv.gz', 'r') as p:
     col_names=[ 'code', 'name', 'addr_1', 'addr_2', 'borough', 'village', 'post_code']    
     practice_data = pd.read_csv(p, names = col_names, header = None)
     
-
-
 practices = practice_data
-
+print ("PRACTICE:")
 print (practices.head())
 
 with gzip.open('./dw-data/chem.csv.gz', 'rb') as c:
     chem_data = pd.read_csv(c)
 
 chem = chem_data
-
+print ("CHEM:")
 print (chem.head())   
 
 
@@ -40,7 +45,7 @@ def summary_stats():
     
     temp = scripts.describe()
     
-    print ("columns: " + temp.columns)
+    print ("COLUMNS: " + temp.columns)
     
     for key in temp.columns:
         #print ("column name: " ,key, "| row index: ", temp[key].index)
@@ -104,12 +109,12 @@ def items_by_region():
     
     #get the fraction: max_items / total_items
     merged['fraction'] = merged['items_x'] / merged['items_y']
-    print ("Merged after calculating the ration")
+    print ("Merged after calculating the fraction")
     print (merged)
     
     #get a df that contain only required items and
     final_df = merged.groupby(['post_code','bnf_name'])['fraction'].sum().reset_index()
-    print ("final test")
+    print ("final data frame")
     print (final_df)
     
     #final answer
@@ -117,5 +122,67 @@ def items_by_region():
     print ("final answer")
     print (tuples)
     
+    return tuples
     
 items_by_region()
+
+# DW 4: Script Anomalies
+print ("DW 4: Script Anomalies")
+chem_copy = chem.drop_duplicates(subset='CHEM SUB')
+opioids = ['morphine', 'oxycodone', 'methadone', 'fentanyl', 'pethidine', 'buprenorphine', 'propoxyphene', 'codeine']
+pattern = '|'.join(opioids)
+print ("Pattern", pattern)
+
+# Add a new column to flag chem with opioid
+chem_copy['flag_opioid'] = chem_copy['NAME'].str.contains(pattern, case = False)
+
+# join with scripts                    
+scripts_joined_chem = pd.merge(scripts, chem_copy, how='left', left_on='bnf_code', right_on='CHEM SUB')
+scripts_joined_chem['flag_opioid'] = scripts_joined_chem['flag_opioid'].fillna(False)
+print ("Scripts inner join chem with opioid:")
+print (scripts_joined_chem)
+
+# group by practice and take the mean of opioid flag
+OVERALL_RATE = scripts_joined_chem['flag_opioid'].mean()
+print ("OVERALL_RATE:")
+print (OVERALL_RATE)
+
+opioid_scores = scripts_joined_chem.groupby('practice')['flag_opioid'].mean().reset_index()
+opioid_scores.columns = ['practice','mean']
+
+def relative_value(mean):
+    return abs(mean - OVERALL_RATE) 
+
+# subtract the opio_rate per practice from the overall
+opioid_scores['relative'] = opioid_scores['mean'].apply(relative_value)
+# get the total prescription per practice
+print ("SIZE:")
+temp = scripts_joined_chem.groupby(['practice']).size()
+temp2 = pd.DataFrame(temp)
+temp2.columns =['n_pres']
+temp2.reset_index(level = 0, inplace = True)
+
+opioid_scores = pd.merge(opioid_scores, temp2, how='inner', left_on ='practice', right_on = 'practice')
+opioid_scores['sqrt_n_pres'] = opioid_scores['n_pres'].apply(sqrt)
+
+# standard deviation across all practice
+
+SIGMA = pd.DataFrame(scripts_joined_chem.groupby('practice')['flag_opioid'].std())
+SIGMA.reset_index(level=0,  inplace = True)
+SIGMA.columns = ['practice', 'sigma']
+
+opioid_scores = pd.merge(opioid_scores, SIGMA, how='inner', left_on ='practice', right_on = 'practice')
+
+
+print ("Standard deviation of opioid across all practice")
+print (SIGMA)
+
+# standard error
+opioid_scores['sdt_error'] = opioid_scores['sigma'] / opioid_scores['sqrt_n_pres']
+
+# z score
+opioid_scores['z_score'] = opioid_scores['relative'] / opioid_scores['sdt_error']
+
+
+print ("opioid_rate_per_practice")
+print (opioid_scores)
