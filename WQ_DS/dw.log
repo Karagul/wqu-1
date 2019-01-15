@@ -1,0 +1,190 @@
+INFO:root:       practice   bnf_code                                  bnf_name  items  \
+0        N85639  0106020C0                     Bisacodyl_Tab E/C 5mg      1   
+1        N81013  0106020C0                     Bisacodyl_Tab E/C 5mg     19   
+2        N81029  0106020C0                     Bisacodyl_Tab E/C 5mg     50   
+3        N81029  0106020C0                     Bisacodyl_Suppos 10mg      1   
+4        N81029  0106020C0                          Dulcolax_Tab 5mg      1   
+5        N81062  0106020C0                     Bisacodyl_Tab E/C 5mg     40   
+6        N81062  0106020C0                     Bisacodyl_Suppos 10mg      1   
+7        N81085  0106020C0                     Bisacodyl_Tab E/C 5mg     35   
+8        N81088  0106020C0                     Bisacodyl_Tab E/C 5mg     67   
+9        N81088  0106020C0                      Bisacodyl_Suppos 5mg      1   
+10       N81632  0106020C0                     Bisacodyl_Tab E/C 5mg     28   
+11       N81632  0106020C0                      Bisacodyl_Suppos 5mg      1   
+12       N81632  0106020C0                     Bisacodyl_Suppos 10mg      2   
+13       Y03882  0106020C0                     Bisacodyl_Tab E/C 5mg      2   
+14       N81008  0106020C0                     Bisacodyl_Tab E/C 5mg     15   
+15       N81008  0106020C0                     Bisacodyl_Suppos 10mg      1   
+16       N81010  0106020C0                     Bisacodyl_Tab E/C 5mg      2   
+17       N81015  0106020C0                     Bisacodyl_Tab E/C 5mg     31   
+18       N81015  0106020C0                     Bisacodyl_Suppos 10mg      2   
+19       N81016  0106020C0                     Bisacodyl_Tab E/C 5mg     37   
+20       N81047  0106020C0                     Bisacodyl_Tab E/C 5mg     56   
+21       N81047  0106020C0                     Bisacodyl_Suppos 10mg      1   
+22       N81053  0106020C0                     Bisacodyl_Tab E/C 5mg     44   
+23       N81053  0106020C0                     Bisacodyl_Suppos 10mg      1   
+24       N81090  0106020C0                     Bisacodyl_Tab E/C 5mg     12   
+25       N81111  0106020C0                     Bisacodyl_Tab E/C 5mg      9   
+26       N81111  0106020C0                     Bisacodyl_Suppos 10mg      1   
+27       Y03881  0106020C0                     Bisacodyl_Tab E/C 5mg      1   
+28       N81024  0106020C0                     Bisacodyl_Tab E/C 5mg     23   
+29       N81024  0106020C0                      Bisacodyl_Suppos 5mg      2   
+...         ...        ...                                       ...    ...   
+855231   E84003  1203030M0                   Covonia_Throat Spy 30ml      1   
+855232   E84003  0309020R0                Covonia_Night Time For S/F      1   
+855233   G85095  0309020R0     Gppe Oral Soln_Covonia Night Time S/F      2   
+855234   E84028  0206020B0            Trimetazidine HCl_Tab 35mg M/R      1   
+855235   E84030  0904010AH               PK_G/F W/F L/P Pasta Spiral      2   
+855236   E85056  0402020V0        Piportil Depot_Inj 50mg/ml 1ml Amp      1   
+855237   Y02671  0402020V0        Piportil Depot_Inj 50mg/ml 1ml Amp      2   
+855238   E85624  1001030AA                       Apremilast_Tab 30mg      1   
+855239   L82028  1001030AA                           Otezla_Tab 30mg      1   
+855240   E85624  1202010P0                  Rynacrom_Nsl Spy 4% 22ml      1   
+855241   G84024  0802040J0        Roferon-A_Inj 6mega u/ml 0.5ml Pfs      2   
+855242   Y05318  090603200          Vega_Vit C + Bioflav V/Cap 500mg      1   
+855243   Y05318  1404000AI                    Cervarix_Vac 0.5ml Pfs      1   
+855244   H85653  130400000  Propylene Glycol 40%/Clobetasol .05%_Crm      1   
+855245   L84057  0801030T0                       Tioguanine_Tab 40mg      1   
+855246   G82056  0801030T0                       Tioguanine_Tab 40mg      1   
+855247   L81013  0205051AB     Perindopril/Indapamide_Tab 5mg/1.25mg      1   
+855248   L81087  0408010AA                       Felbamate_Tab 600mg      1   
+855249   Y03703  0202010J0                     Cyclopenth_Tab 500mcg      1   
+855250   L83008  0501022B0         Ertapenem Sod_I/V Inf 1g Vl (Dry)      2   
+855251   L83118  0502030A0  Amphotericin_Inf(Sod Desoxychol) 50mg Vl      1   
+855252   G82639  030902040                 Benylin_Child Night Cough      1   
+855253   G81036  1001050B0                          Dolenio_Tab 1.5g      9   
+855254   Y03051  0503010AA                   Truvada_Tab 200mg/245mg      1   
+855255   Y03051  0503010G0                    Kaletra_Tab 200mg/50mg      1   
+855256   H81050  0501090Q0                       Rifabutin_Cap 150mg      1   
+855257   H81094  0308000B0                             Benz Co_Tinct      1   
+855258   H81095  0208010N0     Heparin Calc_Inj 25 000u/ml 0.2ml Amp      1   
+855259   J81041  0606010T0   Calcitonin (salmon)_Inj 100u/ml 1ml Amp      2   
+855260   J81041  0606010T0    Calcitonin (salmon)_Inj 50u/ml 1ml Amp      1   
+
+           nic  act_cost  quantity   CHEM SUB  \
+0         0.39      0.47        12  0106020C0   
+1        28.10     28.14       860  0106020C0   
+2        67.73     67.51      2074  0106020C0   
+3         1.77      1.75         6  0106020C0   
+4         3.78      3.61        56  0106020C0   
+5        50.43     50.69      1544  0106020C0   
+6         4.12      3.93        14  0106020C0   
+7        43.42     43.83      1328  0106020C0   
+8        97.10     95.08      2972  0106020C0   
+9         4.16      3.86        20  0106020C0   
+10       51.30     49.93      1570  0106020C0   
+11        1.04      0.98         5  0106020C0   
+12       10.59      9.83        36  0106020C0   
+13        5.23      4.97       160  0106020C0   
+14       27.63     27.16       846  0106020C0   
+15        3.53      3.28        12  0106020C0   
+16        1.82      1.91        56  0106020C0   
+17       42.64     42.44      1306  0106020C0   
+18       15.30     14.29        52  0106020C0   
+19       64.83     63.48      1984  0106020C0   
+20       98.03     95.92      3001  0106020C0   
+21        8.24      7.74        28  0106020C0   
+22       73.28     71.77      2244  0106020C0   
+23        7.06      6.55        24  0106020C0   
+24       14.36     14.34       440  0106020C0   
+25       14.89     14.61       456  0106020C0   
+26        7.06      6.55        24  0106020C0   
+27        1.83      1.81        56  0106020C0   
+28       40.64     39.91      1244  0106020C0   
+29        6.24      5.80        30  0106020C0   
+...        ...       ...       ...        ...   
+855231   17.00     15.75         5  1203030M0   
+855232    3.15      2.93       150  0309020R0   
+855233    6.30      5.86       300  0309020R0   
+855234   67.88     62.85        60  0206020B0   
+855235    4.32      4.02       500  0904010AH   
+855236   48.87     45.35         3  0402020V0   
+855237   48.87     45.46         3  0402020V0   
+855238  550.00    509.18        56  1001030AA   
+855239  550.00    509.18        56  1001030AA   
+855240   17.07     15.82         1  1202010P0   
+855241  170.40    157.77        12  0802040J0   
+855242    5.48      5.09        60  090603200   
+855243   80.50     74.54         1  1404000AI   
+855244  225.15    208.45       100  130400000   
+855245  109.57    101.45        25  0801030T0   
+855246  109.57    101.45        25  0801030T0   
+855247   16.86     15.72        56  0205051AB   
+855248   94.89     87.96        18  0408010AA   
+855249    1.36      1.37        30  0202010J0   
+855250  443.10    410.22        14  0501022B0   
+855251   46.56     43.12        12  0502030A0   
+855252    2.35      2.19       125  030902040   
+855253  185.05    171.92       305  1001050B0   
+855254   59.29     55.00         5  0503010AA   
+855255   47.57     44.15        20  0503010G0   
+855256  271.14    251.02        90  0501090Q0   
+855257   11.20     10.38       500  0308000B0   
+855258   22.35     20.80         5  0208010N0   
+855259   68.42     63.36        10  0606010T0   
+855260    3.42      3.28         1  0606010T0   
+
+                                            NAME  
+0                                      Bisacodyl  
+1                                      Bisacodyl  
+2                                      Bisacodyl  
+3                                      Bisacodyl  
+4                                      Bisacodyl  
+5                                      Bisacodyl  
+6                                      Bisacodyl  
+7                                      Bisacodyl  
+8                                      Bisacodyl  
+9                                      Bisacodyl  
+10                                     Bisacodyl  
+11                                     Bisacodyl  
+12                                     Bisacodyl  
+13                                     Bisacodyl  
+14                                     Bisacodyl  
+15                                     Bisacodyl  
+16                                     Bisacodyl  
+17                                     Bisacodyl  
+18                                     Bisacodyl  
+19                                     Bisacodyl  
+20                                     Bisacodyl  
+21                                     Bisacodyl  
+22                                     Bisacodyl  
+23                                     Bisacodyl  
+24                                     Bisacodyl  
+25                                     Bisacodyl  
+26                                     Bisacodyl  
+27                                     Bisacodyl  
+28                                     Bisacodyl  
+29                                     Bisacodyl  
+...                                          ...  
+855231                   Lidocaine Hydrochloride  
+855232    Dextromethorphan Hydrobrom Comp Prep's  
+855233    Dextromethorphan Hydrobrom Comp Prep's  
+855234               Trimetazidine Hydrochloride  
+855235  Gluten Free/Wheat Free/Low Protein Pasta  
+855236                     Pipotiazine Palmitate  
+855237                     Pipotiazine Palmitate  
+855238                                Apremilast  
+855239                                Apremilast  
+855240                       Sodium Cromoglicate  
+855241                          Interferon Alpha  
+855242      Other Vitamin C & Bioflavonoid Preps  
+855243         Human Papillomavirus (Type 16 18)  
+855244        Other Topical Corticosteroid Preps  
+855245                                Tioguanine  
+855246                                Tioguanine  
+855247           Perindopril Tosilate/Indapamide  
+855248                                 Felbamate  
+855249                          Cyclopenthiazide  
+855250                          Ertapenem Sodium  
+855251                              Amphotericin  
+855252             Diphenhydramine Hydrochloride  
+855253              Glucosamine Sulf (Rheumatic)  
+855254      Emtricitabine & Tenofovir Disoproxil  
+855255                     Lopinavir & Ritonavir  
+855256                                 Rifabutin  
+855257                                   Benzoin  
+855258                           Heparin Calcium  
+855259                       Calcitonin (salmon)  
+855260                       Calcitonin (salmon)  
+
+[855261 rows x 9 columns]
